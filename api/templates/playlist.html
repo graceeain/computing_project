@@ -1,0 +1,100 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    PlayList
+{% endblock %}
+
+
+{% block css %}
+    <style>
+        .custom-table{
+            background: linear-gradient(to right, #9A34FF, #E17878) !important;
+            color:white;
+        }
+
+        .custom-table th, .custom-table td {
+            padding: 8px;
+            border-top: 1px solid #ddd;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .custom-table tr:hover {
+            background: linear-gradient(to right, #B85DF9, #FFA3A3) !important;
+            cursor: pointer;
+        }
+
+        .play-button{
+            border:1px solid green;
+            color: white;
+            padding: 8px 16px;
+            text-decoration: none;
+            border-radius: 1rem;
+        }
+
+        .play-button:hover {
+            color: white;
+            background-color: #008000;
+            transition: 0.3s;
+        }
+    </style>
+    
+{% endblock  %}
+{% block content  %}
+
+
+<div id="playlist" class="py-4">
+    <table class="custom-table">
+        <thead>
+            <tr class="table-bg">
+                <th scope="col">#</th>
+                <th scope="col">Title</th>
+                <th scope="col">Artists</th>
+                <th scope="col">Duration</th>
+                <th scope="col">Danceability</th>
+                <th scope="col">Popularity</th>
+                <th scope="col">Energy</th>
+                <th scope="col"></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for track in tracks | from_json %}
+            {% for track_data in track  %}
+                <tr class="table-bg">
+                <th style="width:75px;">
+                    <img class="img-fluid" src="{{track_data.url}}" />
+                </th>
+                <td class="align-middle">
+                    {{ track_data.name }}
+                </td>
+                <td class="align-middle">
+                    {% set artists_list = track_data.artists[1:-1] | remove_single_quotes  %}
+                    {% for artist in artists_list   %}
+                        {{ artist }}
+                    {% endfor %}
+                </td>
+                <td class="align-middle">
+                    {{ track_data.duration_ms | ms_to_minutes }}
+                </td>
+                <td class="align-middle">
+                    {{ track_data.danceability }}
+                </td>
+                <td class="align-middle">
+                    {{ track_data.popularity }}
+                </td>
+                <td class="align-middle">
+                    {{ track_data.energy }}
+                </td>
+                <td class="align-middle">
+                    <a class="play-button" href="{{ url_for('redirect_to_spotify', track_id=track_data.id) }}">
+                        <i class="bi bi-play-circle pe-1"></i> Listen in Spotify
+                    </a>
+                </td>
+            </tr>
+            {% endfor %}
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock  %}
+
+

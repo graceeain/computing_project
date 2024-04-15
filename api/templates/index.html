@@ -1,0 +1,58 @@
+
+{% extends "layout.html" %}
+{% block title %}
+    Index
+{% endblock %}
+{% block css %}
+        <style>
+            .intro_page {
+                background: linear-gradient(to right, #9A34FF, #E17878);
+            }
+
+            .button{
+                background-color:#7D4AAB;
+                padding: 8px 16px;
+                border-radius: 25px;
+                color: white;
+                text-decoration: none;
+                transition: background-color 0.3s;
+            }
+
+            .button:hover {
+                background-color: #6E3F9D; /* Lighter or darker shade for hover effect */
+            }
+
+            .button-position{
+                top: 18rem;
+            }
+
+            .profile_picture {
+                width: 40px;
+                height: 40px;
+            }
+
+            .rounded-circle {
+                border-radius: 50%;
+            }
+
+        </style>       
+{% endblock  %}
+
+{% block content  %}
+    <div class="intro_page">
+        <div class="container mx-auto text-center position-relative">
+            <img src="{{url_for('static', filename='images/log-in-page-logo-transparent.png')}}" alt="Logo" class="img-fluid w-50 h-75">
+            <div id="button" class="d-flex justify-content-center position-absolute start-50 button-position translate-middle">
+                {% if logged_in %}
+                    <a id="generateMusicButton" class="button" href="{{ url_for('recommendation') }}">Generate Music</a>
+                {% else %}
+                    <a class="button" href="{{ url_for('login')}}">Connect with Spotify</a>
+                {% endif %}
+            </div>
+        </div>       
+    </div>    
+{% endblock  %}
+    
+
+
+   
